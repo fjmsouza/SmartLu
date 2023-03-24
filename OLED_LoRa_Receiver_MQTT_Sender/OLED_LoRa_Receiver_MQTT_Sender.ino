@@ -93,34 +93,42 @@ void displayMood(float moisture)
 void loop() {
   // try to parse packet
   
-  int packetSize = LoRa.parsePacket();
+//  int packetSize = LoRa.parsePacket();
+  
   if (!ubidots.connected())
   {
     ubidots.reconnect();
   }
-  if (packetSize) {
-    packet = "";
+//  if (packetSize) {
+  if(true){
+    
+//    packet = "";
+    packet = "teste wifi cin";
     // received a packet
     Serial.print("Received packet '");
     // read packet
-    while (LoRa.available()) {
-      packet += (char) LoRa.read();
-    }
+//    while (LoRa.available()) {
+//      packet += (char) LoRa.read();
+//    }
     Serial.print(packet);
     // print RSSI of packet
-    Serial.print("' with RSSI ");
-    Serial.println(LoRa.packetRssi());
+//    Serial.print("' with RSSI ");
+//    Serial.println(LoRa.packetRssi());
 
-    moisture = (packet.substring(10,12)).toInt();
-    counter = (packet.substring(14,20)).toInt();
+//    moisture = (packet.substring(10,12)).toInt();
+    moisture = 55;
+//    counter = (packet.substring(14,20)).toInt();
+    counter = counter + 1;
 
     displayMood(moisture);
-    delay(500);
+//    delay(500);
+    delay(15000);
    
     ubidots.add(VARIABLE_LABEL, moisture ); // Insert your variable Labels and the value to be sent
     ubidots.publish(DEVICE_LABEL);
 
     displayMoisture(moisture, counter);
+    delay(5000);
     
   }
   ubidots.loop();
